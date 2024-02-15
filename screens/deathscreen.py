@@ -3,6 +3,7 @@ from screens.startscreen import start_screen
 import time
 from vars import *
 import pygame
+from audio.sound import background_music
 
 
 # DEATH SCREEN
@@ -19,7 +20,9 @@ def death_screen():
         # Draw Text
         screen.blit(death_text, death_text_rect)
         pygame.display.update()
-        if time.time() - start_time > 15:
+        if time.time() - start_time > 5:
             running = False
+            pygame.mixer.stop()
             start_screen()
+        
         pygame.time.wait(100) # Pause for 100 ms each loop

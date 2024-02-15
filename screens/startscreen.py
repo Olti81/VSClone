@@ -9,7 +9,8 @@ from screens.screen import background_image, button_font
 def start_screen():
     running = True
     while running:
-        sound.background_music.play(-1)
+        #
+        sound.background_music.play(0)
         screen.blit(background_image, (0, 0))  # Draw the background image
 
         # Define buttons
@@ -53,3 +54,5 @@ def start_screen():
 
         # Update the display
         pygame.display.update()
+
+    else: sound.background_music.stop()

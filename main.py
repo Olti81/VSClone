@@ -9,16 +9,12 @@ from audio import sound
 from screens.screen import screen, font
 from screens.deathscreen import death_screen
 from screens.startscreen import start_screen
+from player.player import player_img
 from vars import *
 from constants import *
 
 # pygame.init() - Initialize Pygame
 pygame.init()
-
-
-
-# Game sprites
-player_image = pygame.image.load("assets\\player\\player.png")
 
 # function - Spawn new enemy
 def spawn_enemy():
@@ -164,8 +160,9 @@ while running:
     screen.blit(level_text, (10, 35))
 
     # Draw the player
+    screen.blit(player_img, (player_x, player_y))
     player_rect = pygame.Rect(player_x, player_y, PLAYER_SIZE, PLAYER_SIZE)
-    pygame.draw.rect(screen, PLAYER_COLOR, player_rect)
+    #pygame.draw.rect(screen, PLAYER_COLOR, player_rect)
 
     # Draw enemies
     for enemy in enemies:
@@ -173,9 +170,6 @@ while running:
         pygame.draw.rect(screen, ENEMY_COLOR, enemy_rect)
         if check_collision(player_rect, enemy_rect):
             handle_player_hit()
-        #collision = check_collision(player_rect, enemy_rect)
-        #if collision:
-        #    death_screen()
 
     # Update and draw missiles
     for missile in missiles[:]:
