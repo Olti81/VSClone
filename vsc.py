@@ -5,101 +5,20 @@ import pygame
 import sys
 import random
 import time
-from startscreen import *
+from audio import sound
+from screens.screen import screen, font
+from screens.deathscreen import death_screen
+from screens.startscreen import start_screen
+from vars import *
+from constants import *
+
 # pygame.init() - Initialize Pygame
 pygame.init()
 
-# SOUND INIT
-pygame.mixer.init()
-background_music = pygame.mixer.Sound("audio\\background.flac")
-background_music.set_volume(0.2) # Optional volume 0 to 1
-explosion_sound = pygame.mixer.Sound("audio\\explosion.wav")
-explosion_sound.set_volume(0.2) # Optional volume 0 to 1
-xp_pickup_sound = pygame.mixer.Sound("audio\\xp_pickup.wav")
-xp_pickup_sound.set_volume(0.2) # Optional volume 0 to 1
-xp_levelup_sound = pygame.mixer.Sound("audio\\xp_levelup.wav")
-xp_levelup_sound.set_volume(0.8) # Optional volume 0 to 1
-boom_sound = pygame.mixer.Sound("audio\\boom.wav")
-boom_sound.set_volume(0.5) # Optional volume 0 to 1
-death_sound = pygame.mixer.Sound("audio\\death.wav")
-death_sound.set_volume(1) # Optional volume 0 to 1
 
-# DEFINED CONSTANTS
-SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 1024
-BG_COLOR = (0, 0, 0)  # Black background
-PLAYER_COLOR = (255, 255, 255)  # White color
-ENEMY_COLOR = (255, 0, 0)  # Red color
-MISSILE_COLOR = (0, 255, 0)  # Green color
-PLAYER_SIZE = 30
-ENEMY_SIZE = 20
-MISSILE_SIZE = 10
-MISSILE_SPEED = 0.2
-PLAYER_SPEED = 0.2
-ENEMY_SPEED = 0.02
-XP_ORB_COLOR = (0, 0, 255)  # Blue color for XP orb
-XP_ORB_SIZE = 10
-XP_METER_WIDTH = 800
-XP_METER_HEIGHT = 20
-XP_METER_COLOR = (255, 255, 0)  # Yellow color for XP meter
-XP_INCREMENT = 10  # Increment XP by 10% for each orb collected
-
-# Screen and display setup
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Vampire Survivors Clone')
-
-# DEFINED VARIABLES
-running = True
-player_x = SCREEN_WIDTH // 2
-player_y = SCREEN_HEIGHT // 2
-enemies = []    # List to hold all active enemies on screen
-missiles = []   # List to hold all active missiles on screen
-xp_orbs = []    # List to hold the XP orbs on screen
-last_missile_time = 0
-missile_fire_rate = 1000  # Fire every 1000 milliseconds (1 second)
-current_time = time.time() * 1000
-kill_count = 0  # Initialize the kill counter
-xp = 0          # Staring XP
-xp_level = 100  # How much XP for one levelup
-level = 0       # Starting level at 0
-xp_required = 100 # XP required to reach next level
-
-
-
-# Fonts and text setup
-pygame.font.init()  # Initialize font module
-font = pygame.font.SysFont(None, 36)
-button_font = pygame.font.SysFont(None, 40)  # Choose a font and size
-death_font = pygame.font.SysFont(None, 64)
-
-# Background image for start_screen()
-background_image = pygame.image.load('assets\\genie.jpg')  # Replace with your image file
-background_image = pygame.transform.scale(background_image, (1280, 1024))  # Scale to window size
 
 # Game sprites
 player_image = pygame.image.load("assets\\player\\player.png")
-
-
-
-
-
-# DEATH SCREEN
-def death_screen():
-    running = True
-    start_time = time.time()
-    while running:
-        # Fill screen with RED
-        screen.fill((255, 0, 0))
-        # Render Text
-        death_text = death_font.render("YOU HAVE DIED", True, (255, 255, 255))  # Death Text
-        # Get text position
-        death_text_rect = death_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
-        # Draw Text
-        screen.blit(death_text, death_text_rect)
-        pygame.display.update()
-        if time.time() - start_time > 15:
-            running = False
-            start_screen()
-        pygame.time.wait(100) # Pause for 100 ms each loop
 
 # function - Spawn new enemy
 def spawn_enemy():
@@ -138,7 +57,7 @@ def remove_hit_enemies():
                 enemies.remove(enemy)
                 missiles.remove(missile)
                 kill_count += 1  # Increment the kill counter when an enemy is hit
-                explosion_sound.play() # Plays at 2x speed
+                sound.explosion_sound.play() # Plays at 2x speed
                 xp_orbs.append([enemy[0], enemy[1]]) 
                 break
 
@@ -159,7 +78,7 @@ def handle_player_hit():
     # Collision detected
     print("Collision!")
     enemies.clear()
-    death_sound.play()
+    sound.death_sound.play()
     # Add a 1 second delay
     pygame.time.wait(1000)
     # Show Death Screen
@@ -199,7 +118,7 @@ while running:
     if xp >= xp_level:
         level += 1
         xp -= xp_level
-        xp_levelup_sound.play()
+        sound.xp_levelup_sound.play()
         
         # Increase XP required for next level
         xp_level = calculate_xp_required()
@@ -226,9 +145,6 @@ while running:
 
 	#Remove enemies hit by missiles
     remove_hit_enemies()
-
-
-
 
 # RENDER LOGIC
 
@@ -296,9 +212,7 @@ while running:
         if player_rect.colliderect(orb_rect):
             xp_orbs.remove(orb)
             xp += XP_INCREMENT
-            xp_pickup_sound.play()
-
-
+            sound.xp_pickup_sound.play()
 
 	# Refresh the screen
     pygame.display.flip()

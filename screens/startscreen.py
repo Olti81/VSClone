@@ -1,8 +1,15 @@
 # START SCREEN
+import sys
+import pygame
+from audio import sound
+from screens.screen import screen
+from assets import *
+from screens.screen import background_image, button_font
+
 def start_screen():
     running = True
     while running:
-        background_music.play(-1)
+        sound.background_music.play(-1)
         screen.blit(background_image, (0, 0))  # Draw the background image
 
         # Define buttons
@@ -36,11 +43,11 @@ def start_screen():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if start_button.collidepoint(event.pos):
-                    background_music.stop()
-                    boom_sound.play()
+                    sound.background_music.stop()
+                    sound.boom_sound.play()
                     return  # Start the game
                 elif exit_button.collidepoint(event.pos):
-                    background_music.stop()
+                    sound.background_music.stop()
                     pygame.quit()
                     sys.exit()
 

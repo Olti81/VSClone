@@ -1,0 +1,19 @@
+# DEFINED CONSTANTS
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 1024
+BG_COLOR = (0, 0, 0)  # Black background
+PLAYER_COLOR = (255, 255, 255)  # White color
+ENEMY_COLOR = (255, 0, 0)  # Red color
+MISSILE_COLOR = (0, 255, 0)  # Green color
+PLAYER_SIZE = 30
+ENEMY_SIZE = 20
+MISSILE_SIZE = 10
+MISSILE_SPEED = 0.2
+PLAYER_SPEED = 0.2
+ENEMY_SPEED = 0.02
+XP_ORB_COLOR = (0, 0, 255)  # Blue color for XP orb
+XP_ORB_SIZE = 10
+XP_METER_WIDTH = 800
+XP_METER_HEIGHT = 20
+XP_METER_COLOR = (255, 255, 0)  # Yellow color for XP meter
+XP_INCREMENT = 10  # Increment XP by 10% for each orb collected
