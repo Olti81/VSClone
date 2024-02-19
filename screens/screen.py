@@ -17,5 +17,5 @@ button_font = pygame.font.SysFont(None, 40)  # Choose a font and size
 death_font = pygame.font.SysFont(None, 64)
 
 # Background image for start_screen()
-background_image = pygame.image.load('assets\\genie.jpg')  # Replace with your image file
+background_image = pygame.image.load('assets\\screens\\genie.jpg')  # Replace with your image file
 background_image = pygame.transform.scale(background_image, (1280, 1024))  # Scale to window size
